@@ -56,7 +56,7 @@ There are 3 primary resources:
 
 Data 538-https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/all-ages.csv
 U.S. Census-Crosswalk table-https://forum.ipums.org/t/crosswalk-between-degfieldd-and-cip/4209
-DHS-https://www.ice.gov/doclib/sevis/pdf/stemList2022.pdf
+DHS-hhttps://www.ice.gov/sites/default/files/documents/Document/2016/stem-list.pdf
 
 <h1> Response Variable </h1>
 
@@ -85,5 +85,36 @@ ggplot(data = raw, aes(x = Median)) +
         geom_blank() +
         geom_histogram(aes(y = ..density..)) +
         stat_function(fun = dnorm, args = c(mean = mean, sd = sd), col = "tomato")
+```
+
+
+<H1> Let's read in data </h1>
+
+The main goal of this project is to look at the data set and determine how a STEM degree affects salary. Going down this avenue, I think we want to look into two parameter, the Total Salary (raw$total) as well as the CIP code two-digit sequence (which is a ).
+
+```{r}
+url.data <- "https://raw.githubusercontent.com/Amantux/Data_606/main/Project/CIP_2010_Codes_Stem.csv"
+stem_cip_codes <- read.csv(url(url.data), header = TRUE,)
+summary(stem_cip_codes)
+glimpse(stem_cip_codes)
+```
+```{r}
+url.data <- "https://raw.githubusercontent.com/Amantux/Data_606/main/Project/PUMS_To_CIP_2010.csv"
+cip_pums_lookup <- read.csv(url(url.data), header = TRUE,)
+summary(cip_pums_lookup)
+glimpse(cip_pums_lookup)
+cip_pums_lookup
+```
+
+
+
+
+
+<H1> Let's join the data </h1>
+
+```{r}
+
+data <- left_join(raw, cip_pums_lookup, by.x="Major_code", by.y="PUMS")
+
 ```
 
