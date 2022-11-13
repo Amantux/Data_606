@@ -114,7 +114,7 @@ cip_pums_lookup
 
 ```{r}
 
-data <- left_join(raw, cip_pums_lookup, by.x="Major_code", by.y="PUMS")
+data <- left_join(raw, cip_pums_lookup, by="Major_code")
 
 ```
 

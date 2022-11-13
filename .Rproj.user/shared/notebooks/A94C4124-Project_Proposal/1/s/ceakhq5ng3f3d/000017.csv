@@ -1,9 +1,0 @@
-"0",""
-"0","data <- left_join(raw, cip_pums_lookup, by.x=""Major_code"", by.y=""PUMS"")"
-"1","[1m[33mError[39m in [38;5;232m`left_join()`[39m:[22m
-[38;5;232m[33m![38;5;232m `by` must be supplied when `x` and `y` have no common variables.
-[36mℹ[38;5;232m use by = character()` to perform a cross-join.[39m
-Backtrace:
-[90m 1. [39m[1mdplyr[22m::left_join(raw, cip_pums_lookup, by.x = ""Major_code"", by.y = ""PUMS"")
-[90m 2. [39m[38;5;232m[1m[94mdplyr:::left_join.data.frame([38;5;232m[22m[39mraw, cip_pums_lookup, by.x = ""Major_code"", by.y = ""PUMS""[38;5;232m[1m[94m)[38;5;232m[22m[39m
-"
