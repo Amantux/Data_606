@@ -1,0 +1,36 @@
+---
+title: "Data 606 Assignment 2"
+author: "AZM"
+date: "8/10/2022"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+<H1> Library & Data Load In </H1>
+
+```{r}
+library(tidyverse)
+library(openintro)
+```
+## R Markdown
+
+
+```{r cars}
+data(nycflights)
+```
+
+
+
+```{r}
+nycflights
+```
+
+```{r}
+summary(present)
+head(present)
+dim(present)
+```
+
+<H1> 

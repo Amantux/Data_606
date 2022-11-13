@@ -1,0 +1,8 @@
+"0","dqmean <- mean(dairy_queen$cal_fat)"
+"0","dqsd   <- sd(dairy_queen$cal_fat)"
+"0","ggplot(data = dairy_queen, aes(x = cal_fat)) +"
+"0","        geom_blank() +"
+"0","        geom_histogram(aes(y = ..density..)) +"
+"0","        stat_function(fun = dnorm, args = c(mean = dqmean, sd = dqsd), col = ""tomato"")"
+"2","`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+"

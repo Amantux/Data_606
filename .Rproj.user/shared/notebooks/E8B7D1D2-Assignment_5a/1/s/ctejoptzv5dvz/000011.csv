@@ -1,0 +1,3 @@
+"0","global_monitor %>%"
+"0","  count(scientist_work) %>%"
+"0","  mutate(p = n /sum(n))"

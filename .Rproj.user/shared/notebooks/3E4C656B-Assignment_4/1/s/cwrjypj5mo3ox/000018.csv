@@ -1,0 +1,8 @@
+"0","mdmean_md <- mean(mcdonalds$cal_fat)"
+"0","mdsd_md   <- sd(mcdonalds$cal_fat)"
+"0","ggplot(data = mcdonalds, aes(x = cal_fat)) +"
+"0","        geom_blank() +"
+"0","        geom_histogram(aes(y = ..density..)) +"
+"0","        stat_function(fun = dnorm, args = c(mean = mdmean_md, sd = mdsd_md), col = ""tomato"")"
+"2","`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+"

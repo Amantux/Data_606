@@ -1,0 +1,6 @@
+"0","for (ids in unique(fastfood$restaurant)){"
+"0","  test <- fastfood %>% "
+"0","    filter(restaurant == ids)"
+"0","    qqnorm(test[test$restaurant == ids, c('sodium') ]$sodium, main = ids)"
+"0","    qqline(test[test$restaurant == ids, c('sodium') ]$sodium)"
+"0","}"

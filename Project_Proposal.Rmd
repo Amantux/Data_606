@@ -1,0 +1,89 @@
+---
+title: "Project_1"
+author: "AZM"
+date: "2022-10-29"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(openintro)
+library(infer)
+library(statsr)
+```
+
+
+
+<H1> Proposal </H1>
+
+With all the focus on maintaining and developing stem talent, I've always wanted to see if STEM degrees commend a price premium. 
+
+In terms of definition of a STEM degree, I'll be using DHS's STEM CIPs Code List (Found here: https://www.ice.gov/doclib/sevis/pdf/stemList2022.pdf)
+
+In addition I will crosswalk the Major Code to CIPs using a crosswalk table defined in:
+https://forum.ipums.org/t/crosswalk-between-degfieldd-and-cip/4209
+
+Which is allegedly sourced via the census Bureau.
+
+<H1> Data Read In </H1>
+
+```{r}
+url.data <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/all-ages.csv"
+raw <- read.csv(url(url.data), header = TRUE,)
+summary(raw)
+glimpse(raw)
+```
+
+<H1> Cases </H1>
+
+There are 173 cases in this data set. This data is mostly summaries effectively grouped buy the major code
+
+<h1> Type of Study </H1>
+
+This is an observational study.
+
+<h1> Data Sourcing </h1>
+
+There are 3 primary resources:
+
+Data 538-https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/all-ages.csv
+U.S. Census-Crosswalk table-https://forum.ipums.org/t/crosswalk-between-degfieldd-and-cip/4209
+DHS-https://www.ice.gov/doclib/sevis/pdf/stemList2022.pdf
+
+<h1> Response Variable </h1>
+
+The Response variable is the income rate, and its numerical. 
+
+
+<h1> Explanatory Variable </H1>
+
+
+The Explanatory variable is the classification of the CIP code (Ie STEM or not STEM)
+
+<H1> Summary Stats </H1>
+
+```{r}
+summary(raw)
+```
+
+
+
+<H1> Pretty Charts </H1>
+
+```{r}
+mean <- mean(raw$Median)
+sd   <- sd(raw$Median)
+ggplot(data = raw, aes(x = Median)) +
+        geom_blank() +
+        geom_histogram(aes(y = ..density..)) +
+        stat_function(fun = dnorm, args = c(mean = mean, sd = sd), col = "tomato")
+```
+

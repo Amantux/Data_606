@@ -1,0 +1,6 @@
+"0","mean <- mean(raw$Median)"
+"0","sd   <- sd(raw$Median)"
+"0","ggplot(data = raw, aes(x = Median)) +"
+"0","        geom_blank() +"
+"0","        geom_histogram(aes(y = ..density..)) +"
+"0","        stat_function(fun = dnorm, args = c(mean = mean, sd = sd), col = ""tomato"")"

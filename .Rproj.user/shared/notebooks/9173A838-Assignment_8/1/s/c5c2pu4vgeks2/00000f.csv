@@ -1,0 +1,3 @@
+"0","ggplot(data = hfi, aes(x = year, y = hf_rank)) +"
+"0","  geom_point() +"
+"0","  stat_smooth(method = ""lm"", se = FALSE)"

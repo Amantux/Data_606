@@ -1,0 +1,7 @@
+"0","sample_props50 <- global_monitor %>%"
+"0","                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%"
+"0","                    count(scientist_work) %>%"
+"0","                    mutate(p_hat = n /sum(n)) %>%"
+"0","                    filter(scientist_work == ""Doesn't benefit"")"
+"0",""
+"0","sample_props50"

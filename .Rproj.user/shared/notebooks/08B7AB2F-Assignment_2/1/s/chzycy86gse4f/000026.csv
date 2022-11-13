@@ -1,0 +1,3 @@
+"0","nycflights_short <- nycflights %>%"
+"0","  filter( carrier == ""DL"" | carrier == ""AA"" | carrier == ""UA"")"
+"0","head(nycflights_short)"

@@ -1,0 +1,8 @@
+"0","present <- present %>%"
+"0","  mutate(total = boys + girls)"
+"0","present <- present %>%"
+"0","  mutate(boy_ratio = boys / total)"
+"0","ggplot(data = present, aes(x = year, y = boy_ratio)) + "
+"0","  geom_line() + geom_smooth(method=lm)"
+"2","`geom_smooth()` using formula 'y ~ x'
+"

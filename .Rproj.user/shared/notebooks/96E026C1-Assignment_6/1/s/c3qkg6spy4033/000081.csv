@@ -1,0 +1,6 @@
+"0","strength_training_7d <-yrbss%>%"
+"0","  count(hours_tv_per_school_day)"
+"0",""
+"0","physically_active_7d <-yrbss%>%"
+"0","  count(physically_active_7d)"
+"0","yrbss"

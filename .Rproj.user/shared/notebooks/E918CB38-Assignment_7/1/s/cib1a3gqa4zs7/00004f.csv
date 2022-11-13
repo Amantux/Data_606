@@ -1,0 +1,8 @@
+"0",""
+"0",""
+"0","test <- yrbss %>%"
+"0","  mutate(has_exercise = ifelse(yrbss$physically_active_7d > 2, ""yes"", ""no""))  %>%"
+"0","  filter(!(is.na(has_exercise) | is.na(has_exercise))) %>%"
+"0","  filter(!(is.na(weight) | is.na(weight))) %>%"
+"0","  group_by(has_exercise)     "
+"0","test"

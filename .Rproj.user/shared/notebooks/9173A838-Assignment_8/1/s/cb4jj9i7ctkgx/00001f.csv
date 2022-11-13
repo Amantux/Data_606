@@ -1,0 +1,8 @@
+"0",""
+"0","m1 <- lm(pf_score ~ pf_expression_control, data = hfi)"
+"0",""
+"0","ggplot(data = m1, aes(x = .fitted, y = .resid)) +"
+"0","  geom_point() +"
+"0","  geom_hline(yintercept = 0, linetype = ""dashed"") +"
+"0","  xlab(""Fitted values"") +"
+"0","  ylab(""Residuals"")"

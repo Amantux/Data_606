@@ -1,0 +1,8 @@
+"0","arbuthnot <- arbuthnot %>%"
+"0","  mutate(total = boys + girls)"
+"0","arbuthnot <- arbuthnot %>%"
+"0","  mutate(boy_ratio = boys / total)"
+"0","ggplot(data = arbuthnot, aes(x = year, y = boy_ratio)) + "
+"0","  geom_line() + geom_smooth(method=lm)"
+"2","`geom_smooth()` using formula 'y ~ x'
+"

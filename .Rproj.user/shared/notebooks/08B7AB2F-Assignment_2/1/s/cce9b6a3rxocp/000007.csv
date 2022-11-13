@@ -1,0 +1,4 @@
+"0","ggplot(data = nycflights, aes(x = distance, y = avg_speed)) +"
+"0","  geom_point() + geom_smooth()"
+"2","`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = ""cs"")'
+"

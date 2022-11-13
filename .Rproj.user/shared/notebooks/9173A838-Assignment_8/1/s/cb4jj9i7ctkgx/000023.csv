@@ -1,0 +1,3 @@
+"0",""
+"0","ggplot(data = m1, aes(sample = .resid)) +"
+"0","  stat_qq()"

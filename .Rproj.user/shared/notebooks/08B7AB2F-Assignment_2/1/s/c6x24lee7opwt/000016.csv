@@ -1,0 +1,4 @@
+"0",""
+"0","sfo_feb_flights %>%"
+"0","  group_by(dest) %>%"
+"0","  summarise(mean = mean(arr_delay), median = median(arr_delay), standard_deviation = sd(arr_delay), n_flights = n())"

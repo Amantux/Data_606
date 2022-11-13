@@ -1,0 +1,13 @@
+"0","shot_outcomes <- c(""H"", ""M"")"
+"0","sim_basket <- sample(shot_outcomes, size = 133, replace = TRUE, prob = c(0.45, 0.55))"
+"0","table(sim_basket)"
+"1","sim_basket
+"
+"1"," H "
+"1"," M "
+"1","
+"
+"1","52 "
+"1","81 "
+"1","
+"

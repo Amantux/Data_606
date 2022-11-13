@@ -1,0 +1,206 @@
+---
+title: "Project_7"
+author: "AZM"
+date: "2022-10-04"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+```{r}
+library(tidyverse)
+library(openintro)
+library(infer)
+```
+
+
+```{r}
+data('yrbss', package='openintro')
+```
+
+```{r}
+glimpse(yrbss)
+```
+
+<H1> Exercise 1 </H1>
+<H2> What are the cases in this data set? How many cases are there in our sample? </H2>
+
+The cases in this data set are the people. There are 13583 cases in the sample. 
+
+
+<H1> Exercise 2 </H2>
+<H2> How many observations are we missing weights from? </H2>
+
+```{r}
+summary(yrbss$weight)
+```
+We are missing weights from 1004 people.
+
+<H1> Exercise 3 </H1>
+<H2> Make a side-by-side boxplot of physical_3plus and weight. Is there a relationship between these two variables? What did you expect and why? </h2>
+
+```{r}
+yrbss <- yrbss %>% 
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+ggplot(yrbss, aes(x=weight, y=physical_3plus)) + geom_boxplot() 
+```
+<H1> Exercise 4 </H1>
+<H2>Are all conditions necessary for inference satisfied? Comment on each. You can compute the group sizes with the summarize command above by defining a new variable with the definition n(). </H2>
+
+There are 2 conditions for inference
+
+1. More than 30 samples
+2. Independent sampling
+
+We definitely have more than 30 samples, and we can assume we are independently sampled.
+
+```{r}
+
+yrbss %>%
+  group_by(physical_3plus) %>%
+  summarise(mean_weight = mean(weight, na.rm = TRUE), count = n())
+
+```
+
+<H1> Exercise 5 </H1>
+<H2> Write the hypotheses for testing if the average weights are different for those who exercise at least times a week and those who don’t. </H2>
+
+Those who exercise and those who don't will have the same average weight. 
+
+<H1> Exercise 6 </H1>
+<H2> How many of these null permutations have a difference of at least obs_stat? </h2>
+
+There are none
+
+
+```{r}
+null_dist <- yrbss %>%
+  filter(!(is.na(physical_3plus) | is.na(weight))) %>%
+  specify(weight ~ physical_3plus) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+obs_diff <- yrbss %>%
+   filter(!(is.na(physical_3plus) | is.na(weight))) %>%
+  specify(weight ~ physical_3plus) %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+ggplot(data = null_dist, aes(x = stat)) +
+  geom_histogram()
+null_dist %>%
+  get_p_value(obs_stat = obs_diff, direction = "two_sided")
+```
+
+
+<H1> Exercise 7 </h1>
+<H2> Construct and record a confidence interval for the difference between the weights of those who exercise at least three times a week and those who don’t, and interpret this interval in context of the data. </H2>
+
+```{r}
+
+
+test <- yrbss %>%
+  mutate(has_exercise = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))  %>%
+  filter(!(is.na(has_exercise) | is.na(has_exercise))) %>%
+  filter(!(is.na(weight) | is.na(weight))) %>%
+  group_by(has_exercise)     
+test
+height_data <- summarise(test, n=n(), mean=mean(weight), sd=sd(weight))
+height_data
+
+```
+Practically, those that exercise have a higher average weight.
+
+
+<H1> Exercise 8 </h1>
+<H2> Calculate a 95% confidence interval for the average height in meters (height) and interpret it in context. </H2>
+
+```{r}
+mean_height <- mean(yrbss$height, na.rm = TRUE)
+mean_height
+sd_height <- sd(yrbss$height, na.rm = TRUE)
+sd_height
+sde_height <- sd_height / sqrt(13583)
+sde_height
+tval_height <- qt(.05/2, 13583, lower.tail = FALSE)
+ci_up <- mean_height + tval_height * sde_height
+leftintheight <- mean_height - tval_height * sde_height
+rightintheight<- mean_height + tval_height * sde_height
+leftintheight
+rightintheight
+```
+The 95% ci is (1.68948, 1.693002)
+
+<H1> Exercise 9 </H1>
+<H2> Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. </H2>
+```{r}
+mean_height <- mean(yrbss$height, na.rm = TRUE)
+mean_height
+sd_height <- sd(yrbss$height, na.rm = TRUE)
+sd_height
+sde_height <- sd_height / sqrt(13583)
+sde_height
+tval_height <- qt(.1/2, 13583, lower.tail = FALSE)
+ci_up <- mean_height + tval_height * sde_height
+leftintheight <- mean_height - tval_height * sde_height
+rightintheight<- mean_height + tval_height * sde_height
+leftintheight
+rightintheight
+```
+The 90% ci is (1.689763, 1.692719)
+
+<H1> Exercise 10 </H1>
+<H2> Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who don’t. </H2>
+
+Question: Does a exercise encourage more growth?
+Hypothesis: There is no relationship between hours of exercise and height.
+Confidence Interval: 95%
+α level: 0.05 
+
+```{r}
+yrbss$night_sleep_hours <-ifelse(yrbss$physically_active_7d > 2, "yes", "no")
+t.test(height ~ night_sleep_hours, data = yrbss)
+```
+
+The fact that p < 0.05 means we can reject the null hypothesis.
+
+
+<H1> Exercise 11 </H1>
+<H2> Now, a non-inference task: Determine the number of different options there are in the dataset for the hours_tv_per_school_day there are. </H2>
+
+```{r}
+yrbss %>% group_by(hours_tv_per_school_day) %>% summarise(n())
+```
+
+There are 8 different options, including na!
+
+<H1> Exercise 12 </H1>
+<H2> Come up with a research question evaluating the relationship between height or weight and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your α level, and conclude in context. </H2>
+
+Question: Does a full nights sleep encourage more growth?
+Hypothesis: There is no relationship between hours of sleep and height.
+Confidence Interval: 95%
+α level: 0.05 
+
+
+```{r}
+yrbss %>% group_by(school_night_hours_sleep) %>% summarise(n())
+
+yrbss <- yrbss %>%
+  mutate(full_sleep = ifelse(yrbss$school_night_hours_sleep > 7, "yes", "no")) %>%
+  mutate(full_sleep_binary = ifelse(yrbss$school_night_hours_sleep > 7, "1", "0"))
+
+
+yrbss <- yrbss %>% 
+  mutate(sleep = ifelse(yrbss$school_night_hours_sleep > 7, "yes", "no"))
+ggplot(yrbss, aes(x=height, y=sleep)) + geom_boxplot() 
+```
+
+Looking at it, it appears as there there is a loose correlation, but  lets really dig in and figure it out.
+
+
+```{r}
+yrbss$night_sleep_hours <-ifelse(yrbss$school_night_hours_sleep > 7, "yes", "no")
+t.test(height ~ night_sleep_hours, data = yrbss)
+```
+
+The P_val is 0.05 so we can reject the null hypothesis. 

@@ -1,0 +1,10 @@
+"0","mcdonalds <- fastfood %>%"
+"0","  filter(restaurant == ""Mcdonalds"")"
+"0","dairy_queen <- fastfood %>%"
+"0","  filter(restaurant == ""Dairy Queen"") %>% "
+"0","  group_by(cal_fat)"
+"0",""
+"0","dairy_queen = dairy_queen(dairy_queen$cal_fat)"
+"2","Error in dairy_queen(dairy_queen$cal_fat) : 
+  could not find function ""dairy_queen""
+"

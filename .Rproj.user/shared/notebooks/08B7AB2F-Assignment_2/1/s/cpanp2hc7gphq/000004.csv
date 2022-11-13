@@ -1,0 +1,2 @@
+"0","nycflights <- nycflights %>% "
+"0","  mutate(avg_speed = (distance/(air_time/60)))"

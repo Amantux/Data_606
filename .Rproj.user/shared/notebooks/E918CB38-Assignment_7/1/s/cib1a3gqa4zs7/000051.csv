@@ -1,0 +1,2 @@
+"0","height_data <- summarise(test, n=n(), mean=mean(weight), sd=sd(weight))"
+"0","height_data"

@@ -1,0 +1,4 @@
+"0","ggplot(data = arbuthnot, aes(x = year, y = girls)) + "
+"0","  geom_line() + geom_smooth(method=lm)"
+"2","`geom_smooth()` using formula 'y ~ x'
+"

@@ -1,0 +1,2 @@
+"0","ggplot(data = mcdonalds, aes(x = cal_fat)) +"
+"0","  geom_histogram(binwidth = 15)"

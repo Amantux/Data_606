@@ -1,0 +1,3 @@
+"0","physically_active_7d <- physically_active_7d %>%"
+"0","  mutate(text_ind = ifelse(physically_active_7d == ""7"", ""yes"", ""no""))"
+"0","physically_active_7d"

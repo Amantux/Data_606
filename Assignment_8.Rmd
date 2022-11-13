@@ -1,0 +1,171 @@
+---
+title: "Project_8"
+author: "AZM"
+date: "2022-10-04"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+```{r}
+library(tidyverse)
+library(openintro)
+library(infer)
+library(statsr)
+data('hfi', package='openintro')
+```
+
+<H1> Exercise 1</h1>
+<H2> What are the dimensions of the dataset? </H2>
+
+```{r}
+dim(hfi)
+```
+
+
+<h1> Exercise 2 </H1>
+<H2> What type of plot would you use to display the relationship between the personal freedom score, pf_score, and one of the other numerical variables? Plot this relationship using the variable pf_expression_control as the predictor. Does the relationship look linear? If you knew a country’s pf_expression_control, or its score out of 10, with 0 being the most, of political pressures and controls on media content, would you be comfortable using a linear model to predict the personal freedom score? </H2>
+
+Looking at the scatterplot, I would say the relationship looks linear and thus a linear model can predict the personal freedom score.
+
+
+```{r}
+hfi %>%
+  summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
+plot(hfi$pf_score ~ hfi$pf_expression_control, 
+     xlab = "Expression control", ylab = "Pf score")
+
+```
+
+<H1> Exercise 3 </H1>
+<H2> Looking at your plot from the previous exercise, describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. </H2>
+
+```{r}
+hfi1 <- hfi[c("pf_score", "pf_expression_control")] %>% 
+   filter(!is.na(pf_expression_control)|!is.na(pf_score))
+
+# Drop NAs
+hfi1 <- drop_na(hfi1)
+row.names <- NULL
+DATA606::plot_ss(x = hfi1$pf_expression_control, y = hfi1$pf_score)
+```
+
+Practically, there are some massive outliers, but for the most part it appears to be a positive linear relationship. The strength appears to be high, as they are very tightly correlated. 
+
+
+<H1> Exercise 4 </H1>
+<H2> Using plot_ss, choose a line that does a good job of minimizing the sum of squares. Run the function several times. What was the smallest sum of squares that you got? How does it compare to your neighbors? </H2>
+
+```{r}
+plot_ss(x = pf_expression_control, y = pf_score, data = hfi1)
+```
+
+The Smallest sum of square I received was 952! 
+
+<H1> Exercise 5 </H1>
+<H2> Fit a new model that uses pf_expression_control to predict hf_score, or the total human freedom score. Using the estimates from the R output, write the equation of the regression line. What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content? </h2>
+
+
+```{r}
+reverse <- lm(hf_score ~ pf_expression_control, data = hfi)
+summary(reverse)
+```
+
+The slope tells us that human freedom and the amount of political pressure are directly related!
+The Equation is "4.61707 + 0.349862 * (pf_expression_control)
+
+<H1> Exercise 6 </H1>
+<H2> If someone saw the least squares regression line and not the actual data, how would they predict a country’s personal freedom school for one with a 6.7 rating for pf_expression_control? Is this an overestimate or an underestimate, and by how much? In other words, what is the residual for this prediction? </H2>
+
+```{r}
+target <- 6.7
+
+result <- 4.61707 + 0.349862 * target
+result
+hfi %>%
+  group_by(pf_score) %>%
+  filter(pf_expression_control > 6.50) %>%
+  filter(pf_expression_control < 7.00)
+```
+Seeing as there no exact 6.7 value, lets use a close value from Guyana
+
+```{r}
+Residual <- 6.954978	- result
+Residual
+```
+
+The prediction overestimated by 0.0062.
+
+
+<H1> Exercise 7 </H1>
+<H2> Is there any apparent pattern in the residuals plot? What does this indicate about the linearity of the relationship between the two variables? <H2>
+
+```{r}
+
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+
+ggplot(data = m1, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals")
+
+ggplot(data = m1, aes(x = .resid)) +
+  geom_histogram(binwidth = 0.5) +
+  xlab("Residuals")
+
+ggplot(data = m1, aes(sample = .resid)) +
+  stat_qq()
+```
+
+There appears to be no pattern in the residuals, so its likely its a linear relationship.
+
+
+<H1> Exercise 8 </h1>
+<H2> Based on the histogram and the normal probability plot, does the nearly normal residuals condition appear to be met? </H2>
+
+Yes, the chart demonsratres that the distrubutions are nearly normal. 
+
+<H1> Exercise 9 </h1>
+<H2> Based on the residuals vs. fitted plot, does the constant variability condition appear to be met? </h2>
+
+The residuals vs. fitted plot shows the points scattered around zero, appearing to meet the variability condition!
+
+<H1> Exercise 10 </h1>
+<H2> Choose another freedom variable and a variable you think would strongly correlate with it.. Produce a scatterplot of the two variables and fit a linear model. At a glance, does there seem to be a linear relationship? </h2>
+
+```{r}
+ggplot(data = hfi, aes(x = year, y = hf_rank)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE)
+```
+
+The relationship between year and hf_rank is a positive linear relationship. 
+
+<H1> Exercise 11 </h1>
+<h2> How does this relationship compare to the relationship between pf_expression_control and pf_score? Use the R2 values from the two model summaries to compare. Does your independent variable seem to predict your dependent one better? Why or why not? </h2>
+
+```{r}
+
+target <- lm(year ~ hf_rank, data = hfi)
+summary(target)
+```
+
+So my R-Squared value is significantly lower than R-Squared value between pf_expression_control and pf_score?
+
+Given the low correlation, my independent variable does not predict my dependent one well. 
+
+<H1> Exercise 12 </h1>
+<H2> What’s one freedom relationship you were most surprised about and why? Display the model diagnostics for the regression model analyzing this relationship. </H2>
+
+```{r}
+legal <- lm(hfi$year ~ hfi$ef_legal_protection)
+
+summary(legal)
+
+```
+
+Honestly, I'm finding the relationships of freedom relationships and time to be rather interesting. I really like the idea that legal protections are time independent, but at the same time I was hoping that they would be improving (indicating a positive linear relationship)
+
+This model has an R-Square value akin to my previous time based metric, which seems to indicate that freedom and time do not have a relationship. 

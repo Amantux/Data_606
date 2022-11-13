@@ -1,0 +1,3 @@
+"0","yrbss <- yrbss %>% "
+"0","  mutate(active = ifelse(yrbss$physically_active_7d > 2, ""yes"", ""no""))"
+"0","ggplot(yrbss, aes(x=weight, y=active)) + geom_boxplot() "

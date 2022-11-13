@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/953409/65a8f8c07c2d42209359d4aca0effa1a
+bundleId: https://api.rpubs.com/api/v1/document/953409/65a8f8c07c2d42209359d4aca0effa1a
+url: http://rpubs.com/amantux/953409
+when: 1665289929.66321
+lastSyncTime: 1665289929.66322

@@ -1,0 +1,7 @@
+"0","sample_props_benefits <- global_monitor %>%"
+"0","                    rep_sample_n(size = 15, reps = 25, replace = TRUE) %>%"
+"0","                    count(scientist_work) %>%"
+"0","                    mutate(p_hat = n /sum(n)) %>%"
+"0","                    filter(scientist_work == ""Benefits"")"
+"0",""
+"0","sample_props_benefits"

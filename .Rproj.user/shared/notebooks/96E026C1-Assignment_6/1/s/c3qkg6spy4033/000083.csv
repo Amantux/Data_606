@@ -1,0 +1,5 @@
+"0","physically_active_7d <- yrbss %>%"
+"0","  mutate(text_ind = ifelse(physically_active_7d == ""7"", ""yes"", ""no""))"
+"0","hours_tv_per_sd <- yrbss %>%"
+"0","  mutate(text_ind = ifelse(hours_tv_per_school_day == ""do not watch"", ""yes"", ""no""))"
+"0","physically_active_7d"

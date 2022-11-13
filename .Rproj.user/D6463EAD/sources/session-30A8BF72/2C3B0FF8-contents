@@ -1,0 +1,134 @@
+---
+title: "Data_606_Assignment_1"
+author: "AZM"
+date: "8/9/2022"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+<H1> Library Load In </H1>
+
+```{r}
+library(tidyverse)
+library(openintro)
+```
+
+```{r}
+data('arbuthnot', package='openintro')
+```
+
+```{r}
+arbuthnot
+```
+
+<H1> Exercise 1 </H1>
+
+<H3>What command would you use to extract just the counts of girls baptized?</H3>
+
+I would use this command:
+
+
+
+```{r}
+arbuthnot$girls
+```
+
+
+If I wanted to provide a better example
+
+```{r}
+arbuthnot[c("year","girls")]
+```
+
+<H1> Exercise 2 </H1>
+<H3> Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.) </H3>
+
+```{r}
+ggplot(data = arbuthnot, aes(x = year, y = girls)) + 
+  geom_line() + geom_smooth(method=lm)
+```
+
+
+There is an upwards trend of baptizing girls as years increase. I would describe it as an asymptotic function as when the year approaches the mid 1700s, the number of baptisms level off. 
+
+
+<H1> Exercise 3 </H1>
+<H3> Now, generate a plot of the proportion of boys born over time. What do you see? </H3>
+
+```{r}
+arbuthnot <- arbuthnot %>%
+  mutate(total = boys + girls)
+arbuthnot <- arbuthnot %>%
+  mutate(boy_ratio = boys / total)
+ggplot(data = arbuthnot, aes(x = year, y = boy_ratio)) + 
+  geom_line() + geom_smooth(method=lm)
+```
+
+Looking at the trend line in this data, the proportion of boys being baptized over time is decreasing.
+
+<H1> Exercise 4 </H1>
+
+<H3> What years are included in this data set? What are the dimensions of the data frame? What are the variable (column) names? <H3>
+
+Lets first reload the data:
+
+```{r}
+data('present', package='openintro')
+```
+
+Then lets look at what is in it
+```{r}
+summary(present)
+head(present)
+dim(present)
+```
+
+1. What years are in the Data set?
+  a. The year 1940-2002 is the range of the data set
+2. What are the dimensions of the dataframe?
+  a. The Dimensions are 63x3
+3. What are the Variable names?
+  a. The names are year, boys, girls
+
+<H1> Exercise 5 </H1>
+<H3> How do these counts compare to Arbuthnot’s? Are they of a similar magnitude? </H3>
+
+```{r}
+summary(present)
+head(present)
+dim(present)
+summary(arbuthnot)
+head(arbuthnot)
+dim(arbuthnot)
+```
+
+Just quickly grabbing statistics on it, these two data sets cannot be compared. the present data set is orders of magnitude more, and the counts of significantly higher than Arbuthnot's counts are. 
+
+<H1> Exercise 6 </H1>
+<H3> Make a plot that displays the proportion of boys born over time. What do you see? Does Arbuthnot’s observation about boys being born in greater proportion than girls hold up in the U.S.? Include the plot in your response. </H3>
+
+```{r}
+present <- present %>%
+  mutate(total = boys + girls)
+present <- present %>%
+  mutate(boy_ratio = boys / total)
+ggplot(data = present, aes(x = year, y = boy_ratio)) + 
+  geom_line() + geom_smooth(method=lm)
+```
+
+
+Arbuthnot's Observation in regards to boys being born in greater proportion is correct, however this dataset lacks fresher data, and given the trendline, may now be incorrect. 
+
+
+<H1> Exercise 7 </H1>
+
+<H3> In what year did we see the most total number of births in the U.S? </H3>
+
+
+```{r}
+present[present$total == max(present$total),]
+```
+
+The year 1961 had the most births!

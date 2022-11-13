@@ -1,0 +1,6 @@
+"0","mcdonalds <- fastfood %>%"
+"0","  filter(restaurant == ""Mcdonalds"")"
+"0","dairy_queen <- fastfood %>%"
+"0","  filter(restaurant == ""Dairy Queen"")"
+"0","ggplot(data = dairy_queen, aes(x = cal_fat)) +"
+"0","  geom_histogram(binwidth = 15)"

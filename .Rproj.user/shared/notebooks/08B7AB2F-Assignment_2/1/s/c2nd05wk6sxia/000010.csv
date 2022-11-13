@@ -1,0 +1,3 @@
+"0","sfo_feb_flights <- nycflights %>%"
+"0","  filter(dest == ""SFO"" | origin == ""SFO"", month == 2)"
+"0","sfo_feb_flights"

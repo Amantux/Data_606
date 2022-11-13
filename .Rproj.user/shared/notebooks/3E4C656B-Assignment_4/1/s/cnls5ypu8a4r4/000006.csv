@@ -1,0 +1,7 @@
+"0","dairy_queen_counts <- fastfood %>%"
+"0","  filter(restaurant == ""Dairy Queen"") %>% count(cal_fat)"
+"0","mcdonalds_counts <- fastfood %>%"
+"0","    filter(restaurant == ""Mcdonalds"") %>% count(cal_fat)"
+"0","dairy_queen_2"
+"2","Error: object 'dairy_queen_2' not found
+"

@@ -1,0 +1,201 @@
+---
+title: "Project_6"
+author: "AZM"
+date: "2022-10-04"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: true
+---
+```{r}
+library(tidyverse)
+library(openintro)
+library(infer)
+```
+
+
+
+<H1> Exercise 1 </H1>
+<H2> What are the counts within each category for the amount of days these students have texted while driving within the past 30 days? </H2>
+
+
+```{r}
+count_each <-yrbss%>%
+  count(text_while_driving_30d)
+count_each
+strength_training_7d <-yrbss%>%
+  count(hours_tv_per_school_day)
+
+physically_active_7d <-yrbss%>%
+  count(physically_active_7d)
+yrbss
+physically_active_7d <- yrbss %>%
+  mutate(text_ind = ifelse(physically_active_7d == "7", "yes", "no"))
+hours_tv_per_sd <- yrbss %>%
+  mutate(text_ind = ifelse(hours_tv_per_school_day == "do not watch", "yes", "no"))
+physically_active_7d
+hours_tv_per_sd
+```
+<H1> Exercise 2 </H1>
+<H2> What is the proportion of people who have texted while driving every day in the past 30 days and never wear helmets? </H2>
+
+```{r}
+data('yrbss', package='openintro')
+texting_helmet <- yrbss %>%
+  filter(helmet_12m == "never")
+texting_helmet <- texting_helmet %>%
+  mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
+
+texting_helmet %>% count(text_ind)
+
+```
+
+<H1> Exercise 3 </H1>
+<H2> What is the margin of error for the estimate of the proportion of non-helmet wearers that have texted while driving each day for the past 30 days based on this survey? </H2>
+
+```{r}
+texting_helmet
+texting_helmet %>%
+  filter(text_ind != "") %>%
+  specify(response = text_ind, success = "yes") %>%
+  generate(type = "bootstrap") %>%
+  calculate(stat = "prop") %>%
+  get_ci(level = 0.95)
+```
+
+```{r}
+n = 6977 #Population
+z = 1.96 #Z-Score
+p <- seq(from = 0, to = 0.04, by = 0.01)
+me <- 2 * sqrt(p * (1 - p)/n)
+me 
+```
+
+The margin of error is 0.004
+
+```{r}
+dd <- data.frame(p = p, me = me)
+ggplot(data = dd, aes(x = p, y = me)) + 
+  geom_line() +
+  labs(x = "Population Proportion", y = "Margin of Error")
+```
+
+<H1> Exercise 4 </H1>
+<H2> Using the infer package, calculate confidence intervals for two other categorical variables (you’ll need to decide which level to call “success”, and report the associated margins of error. Interpet the interval in context of the data. It may be helpful to create new data sets for each of the two countries first, and then use these data sets to construct the confidence intervals. </H2>
+
+
+```{r}
+physically_active_7d <- physically_active_7d %>%
+  mutate(text_ind = ifelse(physically_active_7d == "7", "yes", "no"))
+physically_active_7d
+physically_active_7d %>%
+  filter(text_ind != "") %>%
+  specify(response = text_ind, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "prop") %>%
+  get_ci(level = 0.95)
+
+
+hours_tv_per_sd
+hours_tv_per_sd %>%
+  filter(text_ind != "") %>%
+  specify(response = text_ind, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "prop") %>%
+  get_ci(level = 0.95)
+```
+
+The CI for people who have exercised 7 days is (0.2645379	, 0.2797145)
+
+The cI for people who have not watched tv is (0.1330294,0.1454134	)
+
+<H1> Exercise 5 </H1>
+<H2> Describe the relationship between p and me. Include the margin of error vs. population proportion plot you constructed in your answer. For a given sample size, for which value of p is margin of error maximized? </h2>
+
+
+```{r}
+n <- 1000
+p <- seq(from = 0, to = 1, by = 0.01)
+me <- 2 * sqrt(p * (1 - p)/n)
+dd <- data.frame(p = p, me = me)
+ggplot(data = dd, aes(x = p, y = me)) + 
+  geom_line() +
+  labs(x = "Population Proportion", y = "Margin of Error")
+```
+This chart appears to create a inverted parabola centered around 50% of the population. The maximum me is 50% of the population.
+
+<H1> Exercise 6 </H1>
+<H2> Describe the sampling distribution of sample proportions at n=300 and p=0.1. Be sure to note the center, spread, and shape. </H2>
+
+```{r}
+p <- 0.1
+n <- 300
+
+
+(p*(1-p)/n)^.5
+.1-(p*(1-p)/n)^.5
+.1+(p*(1-p)/n)^.5
+
+```
+
+Center is a 0.1, spread is (0.08, 0.11)
+<H1> Exercise 7 </H1>
+<H2> Keep n constant and change p. How does the shape, center, and spread of the sampling distribution vary as p changes. You might want to adjust min and max for the x-axis for a better view of the distribution. </H2>
+```{r}
+p <- 0.1
+n <- 300
+
+
+(p*(1-p)/n)^.5
+.1-(p*(1-p)/n)^.5
+.1+(p*(1-p)/n)^.5
+```
+As P changes, the center changes, but the spread remains the same. 
+
+<H1> Exercise 8 </H1>
+<H2> Now also change n. How does n appear to affect the distribution of p^? </H2>
+
+As n changes the distribution of the sample! Higher ns have a tighter spread, lower ns have a lower spread. 
+
+<H1> Exercise 9 </H1>
+<H2> Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. </H2>
+
+Null-There is no difference in strength training
+Alt-There is a difference in strength training for students that sleep 10+ hours
+
+```{r}
+sleep <- yrbss  %>%
+  filter(school_night_hours_sleep == "10+")
+
+strengthTraining <- yrbss %>%
+  mutate(text_ind = ifelse(strength_training_7d == "7", "yes", "no"))
+strengthTraining %>%
+  filter(text_ind != "") %>%
+  specify(response = text_ind, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "prop") %>%
+  get_ci(level = 0.95)
+
+
+
+```
+
+The ci range is (0.1616, 0.1743)
+
+<H1> Exercise 10 </H1>
+<H2> Let’s say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? Hint: Review the definition of the Type 1 error. </H2>
+
+Type 1 error is false positives, which is a bias to reject the null hypothesis. I believe there would be a 5% chance to get a type 1 error in this set. 
+
+<H1> Exercise 11 </H1>
+<H2> Suppose you’re hired by the local government to estimate the proportion of residents that attend a religious service on a weekly basis. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for p. How many people would you have to sample to ensure that you are within the guidelines?
+Hint: Refer to your plot of the relationship between p and margin of error. This question does not require using a dataset. </H2>
+
+Margin of error is 1.96*SE = 1.96 * (p(1-p)/n)^0.5
+
+so if we are aiming for a me of <1% with a ci of 95%
+n = 1.96^2 * 0.5*(1 − 0.5)/me^2
+or n = 9,604
+
+

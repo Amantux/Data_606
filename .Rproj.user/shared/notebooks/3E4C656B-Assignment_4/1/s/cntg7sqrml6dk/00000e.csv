@@ -1,0 +1,2 @@
+"0","#Normal plot for total carbohydrates from Dairy Queen"
+"0","qqnorm(dairy_queen$total_carb, main = ""Dairy Queen Carbs"")"
